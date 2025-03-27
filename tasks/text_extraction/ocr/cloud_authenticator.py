@@ -26,7 +26,7 @@ class CloudAuthenticator:
             "GOOGLE_AUDIENCE"
         )  # Should match the workload identity audience
         self.google_sts_endpoint = "https://sts.googleapis.com/v1/token"
-        logger.debug(str(self))
+        logger.debug(f"CloudAuthenticator initialized with: {self.__dict__}")
 
     def validate_environment_variables(self):
         required_vars = [
