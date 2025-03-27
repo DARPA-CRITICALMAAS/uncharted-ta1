@@ -46,25 +46,31 @@ class CloudAuthenticator:
         """
         authority = f"https://login.microsoftonline.com/{self.tenant_id}"
         app = msal.ConfidentialClientApplication(
-            self.client_id,
-            authority=authority,
-            client_credential=self.client_secret
+            self.client_id, authority=authority, client_credential=self.client_secret
         )
         # Use /.default scope
         scopes = [f"{self.azure_audience}/.default"]
         # Always fetch a new token (no caching)
         result = app.acquire_token_for_client(scopes=scopes)
+        if not result:
+            raise ValueError("Token acquisition failed")
         if "access_token" in result:
             token = result["access_token"]
             expires_in = result.get("expires_in", "Unknown")
-            issued_at = result.get("ext_expires_in", "Unknown")  # Some APIs provide this value
-    
-            logger.debug(f"New Token Acquired: {token[-10:]}...")  # Print last 10 chars for security
+            issued_at = result.get(
+                "ext_expires_in", "Unknown"
+            )  # Some APIs provide this value
+
+            logger.debug(
+                f"New Token Acquired: {token[-10:]}..."
+            )  # Print last 10 chars for security
             logger.debug(f"Token Expires In: {expires_in} seconds")
-    
+
             return token
         else:
-            raise ValueError(f"Token acquisition failed: {result.get('error_description')}")
+            raise ValueError(
+                f"Token acquisition failed: {result.get('error_description')}"
+            )
 
     def exchange_for_google_token(self, entra_token):
         """

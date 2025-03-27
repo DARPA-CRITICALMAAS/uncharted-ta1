@@ -68,15 +68,15 @@ class ROIExtractor(Task):
         h = input.image.height
         outer_coords = list(
             map(
-                lambda x: self._limit_polygon(x, (0, 0), (w, h)),
-                poly_outer.exterior.coords,
+                lambda x: self._limit_polygon((x[0], x[1]), (0, 0), (w, h)),
+                list(poly_outer.exterior.coords),
             )
         )
 
         map_roi_result = MapROI(
-            map_bounds=list(poly_map.exterior.coords),
+            map_bounds=[(float(x), float(y)) for x, y in poly_map.exterior.coords],
             buffer_outer=outer_coords,
-            buffer_inner=list(poly_inner.exterior.coords),
+            buffer_inner=[(float(x), float(y)) for x, y in poly_inner.exterior.coords],
         )
 
         result.add_output(ROI_MAP_OUTPUT_KEY, map_roi_result.model_dump())

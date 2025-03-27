@@ -7,7 +7,7 @@ from PIL import Image
 
 from collections import defaultdict
 from tasks.point_extraction.entities import PointLabels, LegendPointItems
-from tasks.point_extraction.label_map import YOLO_TO_CDR_LABEL
+from tasks.point_extraction.label_map import POINT_CLASS, YOLO_TO_CDR_LABEL
 from tasks.text_extraction.entities import TextExtraction
 from shapely.geometry import Polygon
 from shapely.strtree import STRtree
@@ -343,7 +343,7 @@ def get_cdr_point_name(class_name: str, legend_name: str) -> str:
     pt_name = class_name if class_name else legend_name
     if pt_name in YOLO_TO_CDR_LABEL:
         # map from YOLO point class to CDR point label
-        pt_name = YOLO_TO_CDR_LABEL[pt_name]
+        pt_name = YOLO_TO_CDR_LABEL[POINT_CLASS(pt_name)]
     return pt_name
 
 

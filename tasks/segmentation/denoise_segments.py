@@ -86,7 +86,7 @@ class DenoiseSegments(Task):
                 segs_merged: List[SegmentationResult] = []
                 for poly, poly_conf in zip(polys, polys_conf):
                     seg_result = SegmentationResult(
-                        poly_bounds=list(poly.exterior.coords),
+                        poly_bounds=[(x, y) for x, y in poly.exterior.coords],
                         bbox=[
                             poly.bounds[0],
                             poly.bounds[1],
