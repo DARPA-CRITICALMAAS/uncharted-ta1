@@ -6,8 +6,7 @@ from google.oauth2.credentials import Credentials
 from google.cloud.vision import ImageAnnotatorClient
 
 logger = logging.getLogger(__name__)
-
-
+logger.setLevel(logging.DEBUG)
 # Provided USGS
 class CloudAuthenticator:
     def __init__(self):
@@ -27,6 +26,7 @@ class CloudAuthenticator:
             "GOOGLE_AUDIENCE"
         )  # Should match the workload identity audience
         self.google_sts_endpoint = "https://sts.googleapis.com/v1/token"
+        logger.debug(f"CloudAuthenticator initialized with: {self.__dict__}")
 
     def validate_environment_variables(self):
         required_vars = [
@@ -86,6 +86,8 @@ class CloudAuthenticator:
         }
 
         response = requests.post(self.google_sts_endpoint, json=payload)
+        logger.debug("Google token exchange complete")
+        logger.debug("Response: " + str(response))
 
         if response.status_code != 200:
             raise ValueError(f"Token exchange failed: {response.text}")
