@@ -11,7 +11,7 @@ from shapely import MultiPolygon, unary_union, concave_hull
 from tasks.text_extraction.ocr.cloud_authenticator import CloudAuthenticator
 
 logger = logging.getLogger(__name__)
-
+logger.setLevel(logging.DEBUG)
 
 class GoogleVisionOCR:
     """
@@ -46,6 +46,7 @@ class GoogleVisionOCR:
             there is an issue with the request.
         """
         self._client.batch_annotate_images(requests=[])
+        logger.debug("API key validated")
 
     def detect_text(self, vision_img: VisionImage) -> List[Dict[str, Any]]:
         """
