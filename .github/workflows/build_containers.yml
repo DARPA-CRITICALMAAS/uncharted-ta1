@@ -41,6 +41,8 @@ jobs:
           mkdir -p $(dirname ${{ env.POINTS_MODEL }})
           aws s3 cp s3://pantera-file-test/lara/points/${{ env.POINTS_MODEL_NAME }} ${{ env.POINTS_MODEL }}
       - name: Image build
-        run: make TAG=${{ github.event.inputs.image_tag }} build
+        run: make build
       - name: Image push
-        run: make TAG=${{ github.event.inputs.image_tag }} push
+        run: |
+          make DEV_TAG=${{ github.event.inputs.image_tag }} tag_dev
+          make DEV_TAG=${{ github.event.inputs.image_tag }} push_dev
