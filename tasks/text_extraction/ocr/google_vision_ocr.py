@@ -13,6 +13,7 @@ from tasks.text_extraction.ocr.cloud_authenticator import CloudAuthenticator
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+
 class GoogleVisionOCR:
     """
     Extracts text from an image using Google Vision's OCR API

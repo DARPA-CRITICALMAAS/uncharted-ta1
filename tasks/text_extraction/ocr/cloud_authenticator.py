@@ -7,6 +7,8 @@ from google.cloud.vision import ImageAnnotatorClient
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+
 # Provided USGS
 class CloudAuthenticator:
     def __init__(self):
