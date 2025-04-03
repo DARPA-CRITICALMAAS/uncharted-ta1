@@ -1,7 +1,13 @@
 name: Build Containers
 
 # manual trigger only
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Tag for the created images"
+        required: false
+        default: "latest"
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.LARA_AWS_ACCESS_KEY_ID }}
@@ -35,6 +41,6 @@ jobs:
           mkdir -p $(dirname ${{ env.POINTS_MODEL }})
           aws s3 cp s3://pantera-file-test/lara/points/${{ env.POINTS_MODEL_NAME }} ${{ env.POINTS_MODEL }}
       - name: Image build
-        run: make build
+        run: make TAG=${{ github.event.inputs.image_tag }} build
       - name: Image push
-        run: make push
+        run: make TAG=${{ github.event.inputs.image_tag }} push
